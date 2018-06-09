@@ -27,8 +27,7 @@ function setStyleTag() {
     document.head.innerHTML += styleTag
 }
 
-function main() {
-    setStyleTag()
+function insertAppreciationButton(clickCallback) {
     const target = document.querySelector('.discussion-timeline-actions')
     const buttonHTML = `
     <div class="appreciate-button-container">
@@ -40,14 +39,32 @@ function main() {
     const buttonDom = document.createElement('div')
     buttonDom.innerHTML = buttonHTML
     target.parentNode.insertBefore(buttonDom, target)
+    buttonDom.addEventListener('click', clickCallback)
+}
 
-    async function handleAppreciation() {
-        const eos = Eos()
-        const firstblock = await eos.getBlock()
-        alert(JSON.stringify(firstblock))
+function main() {
+    setStyleTag()
+    const config = {
+        chainId: 'cec278a9dced800d9a695adc1e265ed11efa0ad8a70cdaac1eb65718bbe2434f',
+        keyProvider: [], // WIF string or array of keys..
+        httpEndpoint: 'http://203.195.171.163:8888',
+        mockTransactions: () => 'pass', // or 'fail'
+        transactionHeaders: (expireInSeconds, callback) => {
+            callback(null/*error*/, headers)
+        },
+        expireInSeconds: 60,
+        broadcast: true,
+        debug: false, // API and transactions
+        sign: true
     }
 
-    buttonDom.addEventListener('click', handleAppreciation)
+    async function handleAppreciation() {
+        const eos = Eos(config)
+        const firstblock = await eos.getBlock(664615)
+        alert(JSON.stringify(firstblock, null, 4))
+    }
+
+    insertAppreciationButton(handleAppreciation)
 }
 
 main()
