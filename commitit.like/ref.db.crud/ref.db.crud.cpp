@@ -13,33 +13,33 @@ class test_da : public contract {
     using contract::contract;
     test_da( account_name self ):contract(self){}
 
-    void create( account_name user,
-                 string title,
-                 string content )
+    void create( account_name voter,
+                 string pr_commiter,
+                 string pr_url )
     {
-      require_auth( user ); //验证权限
-      das datable( _self, user);　//定义数据库对象
-      datable.emplace(user, [&]( da & d){
-        d.title = title;
-        d.content = content;
-        d.post_id = datable.available_primary_key();
-        d.poster = user;
-      });　//数据库内容创建
+      require_auth( voter );
+      likes datable( _self, voter );
+      datable.emplace(voter, [&]( like & d ){
+        d.pr_commiter = pr_commiter;
+        d.pr_url = pr_url;
+        d.like_id = datable.available_primary_key();
+        d.voter = voter;
+      });
     }
 
   private:
    // @abi table data i64
-   struct da {
-     uint64_t     post_id;
-     account_name poster;
-     string       title;
-     string       content;
+   struct like {
+     uint64_t     like_id;
+     account_name voter;
+     string       pr_commiter;
+     string       pr_url;
 
-     uint64_t primary_key()const { return post_id; }
-     account_name get_poster() const { return poster; }
+     uint64_t primary_key()const { return like_id; }
+     account_name get_voter() const { return voter; }
 
-     EOSLIB_SERIALIZE(da, (post_id)(poster)(title)(content))
+     EOSLIB_SERIALIZE(like, (like_id)(voter)(pr_commiter)(pr_url))
    };
-   typedef eosio::multi_index<N(data), da, indexed_by<N(byposter), const_mem_fun<da, account_name, &da::get_poster>> > das;
+   typedef eosio::multi_index< N(data), like, indexed_by<N(byvoter), const_mem_fun<like, account_name, &like::get_voter>> > likes;
 };
 EOSIO_ABI( test_da, (create) )

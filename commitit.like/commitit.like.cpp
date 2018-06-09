@@ -1,46 +1,45 @@
 /**
  *  @commitit.like.cpp
  *  @copyright by commitit-hq
+ *  account name: commititlike
+ *  public key: EOS7ogHLWAya3G87c2bimACYrJd9cGhdXLrtgAJzsszuW44H4kWd9
  */
 #include <commitit.like.hpp>
 
 using namespace eosio;
-
-class commitit : public eosio::contract {
+using namespace std;
+class commitit : public contract {
   public:
     using contract::contract;
+    commitit( account_name self ):contract(self){}
 
-    /**
-    * This action is called when a user casts a like
-    */
-    void like( account_name voter,
-               std::string  pr_commiter,
-               std::string  pr_url )
+    void createlike( account_name voter,
+                     string       pr_commiter,
+                     string       pr_url )
     {
-      // checkings
       require_auth( voter );
-      eosio_assert( pr_commiter.size() > 0, "pr_commiter cannot be blank" );
-      eosio_assert( pr_url.size() > 0, "pr_url cannot be blank" );
-
-      print("voter: ", voter);
-      // https://github.com/EOSIO/eos/issues/2984 string print not support for the testnet
-      // eosio::print("pr_commiter: ", pr_commiter);
-      // eosio::print("pr_url: ", pr_url);
+      likes datable( _self, voter );
+      datable.emplace(voter, [&]( like & d ){
+        d.pr_commiter = pr_commiter;
+        d.pr_url = pr_url;
+        d.like_id = datable.available_primary_key();
+        d.voter = voter;
+      });
     }
 
   private:
-    //@abi table like i64
-    struct like_action {
-      account_name voter;
-      std::string  pr_commiter;
-      std::string  pr_url;
-      int32_t      like_power;
+   // @abi table data i64
+   struct like {
+     uint64_t     like_id;
+     account_name voter;
+     string       pr_commiter;
+     string       pr_url;
 
-      EOSLIB_SERIALIZE( like_action, (voter)(pr_commiter)(pr_url)(like_power) )
-    };
+     uint64_t primary_key()const { return like_id; }
+     account_name get_voter() const { return voter; }
+
+     EOSLIB_SERIALIZE(like, (like_id)(voter)(pr_commiter)(pr_url))
+   };
+   typedef eosio::multi_index< N(data), like, indexed_by<N(byvoter), const_mem_fun<like, account_name, &like::get_voter>> > likes;
 };
-
-EOSIO_ABI( commitit, (like) )
-
-// multiple action reference:
-// EOSIO_ABI( dice, (offerbet)(canceloffer)(reveal)(claimexpired)(deposit)(withdraw) )
+EOSIO_ABI( commitit, (createlike) )

@@ -3,8 +3,9 @@
 #### contract
 - `npm run wast`
 - `npm run abi`
-- deploy or update (only both `wast` and `abi` are changed can update deployed): `cleos set contract commitit.lk1 commitit.like`
-- test: `cleos push action commitit.lk1 like '[commitittest, 'noprom', 'EOSIO/eos/pull/3986']' -p commitittest`
+- deploy or update (only both `wast` and `abi` are changed can update deployed): `cleos set contract commititlike commitit.like`
+- test create like: `cleos push action commititlike createlike '{"voter":"commitittest","pr_commiter":"foreseaz","pr_url":"github/EOS/pull/123"}' -p commitittest`
+- test get like: `cleos get table commititlike commitittest data`
 
 ### create account
 - create account for contract: `commitit.lkx` (create from [testnet](http://203.195.171.163:8081))
