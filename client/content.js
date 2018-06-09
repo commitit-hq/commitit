@@ -32,7 +32,9 @@ function insertAppreciationButton(clickCallback) {
     const buttonHTML = `
     <div class="appreciate-button-container">
         <a class="appreciate-button" role="button">
+        <span class="appreciate-button_text">
             Nice PR!
+        </span>
         </a>
     </div>
     `
@@ -44,6 +46,31 @@ function insertAppreciationButton(clickCallback) {
 
 function main() {
     setStyleTag()
+
+    const buttonStateCore = {
+        state: 'not-liked'
+    }
+
+    const buttonState = new Proxy(buttonStateCore, {
+        set(obj, key, value) {
+            if (key === 'state') {
+                const textDom = document.querySelector('.appreciate-button_text')
+                console.info(value)
+                switch (value) {
+                    case 'liking': {
+                        textDom.innerHTML = 'liking'
+                        break
+                    }
+                    case 'liked': {
+                        textDom.innerText = 'liked'
+                        break
+                    }
+                }
+            }
+            obj[key] = value
+        }
+    })
+
     const config = {
         chainId: 'cec278a9dced800d9a695adc1e265ed11efa0ad8a70cdaac1eb65718bbe2434f',
         contractSender: "commitittest",
@@ -59,7 +86,10 @@ function main() {
         sign: true
     }
 
+    const deley = (time) => new Promise((resolve => setTimeout(resolve, time)))
+
     async function handleAppreciation() {
+        buttonState.state = 'liking'
         const eos = Eos(config)
         try {
             const result = await eos.transaction({
@@ -80,6 +110,8 @@ function main() {
                     }
                 ]
             })
+            await deley(500)
+            buttonState.state = 'liked'
             console.info(result)
         }
         catch (error) {
