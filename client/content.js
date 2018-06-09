@@ -24,12 +24,9 @@ function insertAppreciationButton(clickCallback) {
             </span>
         </a>
     `
-    const buttonDom = document.createElement('div')
-    buttonDom.innerHTML = buttonHTML
-    wrapperDom.appendChild(buttonDom)
+    wrapperDom.innerHTML = buttonHTML
     target.parentNode.insertBefore(wrapperDom, target)
-    buttonDom.addEventListener('click', clickCallback)
-    return buttonDom
+    wrapperDom.addEventListener('click', clickCallback)
 }
 
 function main() {
@@ -46,11 +43,13 @@ function main() {
                 console.info(value)
                 switch (value) {
                     case 'liking': {
-                        textDom.innerHTML = 'Liking'
+                        textDom.innerText = 'Liking'
                         break
                     }
                     case 'liked': {
                         textDom.innerText = 'Liked'
+                        const buttonDom = document.querySelector('.appreciate-button')
+                        buttonDom.classList.add('disabled')
                         break
                     }
                 }
@@ -92,7 +91,7 @@ function main() {
         }
     }
 
-    buttonState.dom = insertAppreciationButton(handleAppreciation)
+    insertAppreciationButton(handleAppreciation)
 }
 
 main()
