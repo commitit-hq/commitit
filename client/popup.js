@@ -17,7 +17,7 @@ function setupPopup() {
                         data: {
                             from: 'commitittest',
                             to: 'andyandyandy',
-                            quantity: '23482 ANDY',
+                            quantity: '1 ANDY',
                             memo: ''
                         }
                     }

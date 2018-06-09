@@ -6,21 +6,7 @@ function setStyleTag() {
         }
     
         .appreciate-button {
-            display: inline-block;
-            font-size: 36px;
-            cursor: pointer;
-            padding: 0.2em 0.5em;
-            color: orange;
-            font-weight: bold;
-            user-select: none;
-        }
-        
-        .appreciate-button:hover {
-            background: #FF0;
-        }
-        
-        .appreciate-button:active {
-            background: #FD0;
+            margin: 10px 0;
         }
     </style>
     `
@@ -29,26 +15,28 @@ function setStyleTag() {
 
 function insertAppreciationButton(clickCallback) {
     const target = document.querySelector('.discussion-timeline-actions')
+    const wrapperDom = document.createElement('div')
+    wrapperDom.classList.add('appreciate-button-container')
     const buttonHTML = `
-    <div class="appreciate-button-container">
-        <a class="appreciate-button" role="button">
-        <span class="appreciate-button_text">
-            Nice PR!
-        </span>
+        <a class="appreciate-button btn btn-primary" role="button">
+            <span class="appreciate-button_text">
+                Nice PR!
+            </span>
         </a>
-    </div>
     `
     const buttonDom = document.createElement('div')
     buttonDom.innerHTML = buttonHTML
-    target.parentNode.insertBefore(buttonDom, target)
+    wrapperDom.appendChild(buttonDom)
+    target.parentNode.insertBefore(wrapperDom, target)
     buttonDom.addEventListener('click', clickCallback)
+    return buttonDom
 }
 
 function main() {
     setStyleTag()
 
     const buttonStateCore = {
-        state: 'not-liked'
+        state: 'not-liked',
     }
 
     const buttonState = new Proxy(buttonStateCore, {
@@ -58,11 +46,11 @@ function main() {
                 console.info(value)
                 switch (value) {
                     case 'liking': {
-                        textDom.innerHTML = 'liking'
+                        textDom.innerHTML = 'Liking'
                         break
                     }
                     case 'liked': {
-                        textDom.innerText = 'liked'
+                        textDom.innerText = 'Liked'
                         break
                     }
                 }
@@ -89,7 +77,7 @@ function main() {
                         data: {
                             from: 'commitittest',
                             to: 'andyandyandy',
-                            quantity: '23482 ANDY',
+                            quantity: '1 ANDY',
                             memo: ''
                         }
                     }
@@ -104,7 +92,7 @@ function main() {
         }
     }
 
-    insertAppreciationButton(handleAppreciation)
+    buttonState.dom = insertAppreciationButton(handleAppreciation)
 }
 
 main()
