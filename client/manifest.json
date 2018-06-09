@@ -14,7 +14,10 @@
   "content_scripts": [
     {
       "matches": ["https://github.com/*/pull/*"],
-      "js": ["content.js"]
+      "js": [
+        "eos.js",
+        "content.js"
+      ]
     }
   ]
 }

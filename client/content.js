@@ -40,6 +40,14 @@ function main() {
     const buttonDom = document.createElement('div')
     buttonDom.innerHTML = buttonHTML
     target.parentNode.insertBefore(buttonDom, target)
+
+    async function handleAppreciation() {
+        const eos = Eos()
+        const firstblock = await eos.getBlock()
+        alert(JSON.stringify(firstblock))
+    }
+
+    buttonDom.addEventListener('click', handleAppreciation)
 }
 
 main()

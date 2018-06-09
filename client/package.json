@@ -1,8 +1,0 @@
-{
-  "name": "commitit-client",
-  "version": "0.0.1",
-  "description": "",
-  "dependencies": {
-    "eosjs": "^14.1.1"
-  }
-}
