@@ -4,15 +4,7 @@
  */
 #include <commitit.like.hpp>
 
-// struct like_action {
-//   uint64_t     voter;
-//   string       pr_commiter;
-//   string       pr_url;
-//   int32_t      like_power;
-//
-//   like_record( uint32_t c = now() ):created(c){}
-//   static Name table_id() { return Name("like"); }
-// };
+using namespace eosio;
 
 class commitit : public eosio::contract {
   public:
@@ -35,6 +27,20 @@ class commitit : public eosio::contract {
       // eosio::print("pr_commiter: ", pr_commiter);
       // eosio::print("pr_url: ", pr_url);
     }
+
+  private:
+    //@abi table like i64
+    struct like_action {
+      uint64_t     voter;
+      std::string  pr_commiter;
+      std::string  pr_url;
+      int32_t      like_power;
+
+      EOSLIB_SERIALIZE( like_action, (voter)(pr_commiter)(pr_url)(like_power) )
+    };
 };
 
 EOSIO_ABI( commitit, (like) )
+
+// multiple action reference:
+// EOSIO_ABI( dice, (offerbet)(canceloffer)(reveal)(claimexpired)(deposit)(withdraw) )
