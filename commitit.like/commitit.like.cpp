@@ -22,7 +22,7 @@ class commitit : public eosio::contract {
       eosio_assert( pr_commiter.size() > 0, "pr_commiter cannot be blank" );
       eosio_assert( pr_url.size() > 0, "pr_url cannot be blank" );
 
-      eosio::print("voter: ", voter);
+      print("voter: ", voter);
       // https://github.com/EOSIO/eos/issues/2984 string print not support for the testnet
       // eosio::print("pr_commiter: ", pr_commiter);
       // eosio::print("pr_url: ", pr_url);
@@ -31,7 +31,7 @@ class commitit : public eosio::contract {
   private:
     //@abi table like i64
     struct like_action {
-      uint64_t     voter;
+      account_name voter;
       std::string  pr_commiter;
       std::string  pr_url;
       int32_t      like_power;
