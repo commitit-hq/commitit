@@ -67,17 +67,16 @@ function main() {
             const result = await eos.transaction({
                 actions: [
                     {
-                        account: 'commitittest',
-                        name: 'transfer',
+                        account: 'commitit.lk1',
+                        name: 'like',
                         authorization: [{
                             actor: 'commitittest',
                             permission: 'active'
                         }],
                         data: {
-                            from: 'commitittest',
-                            to: 'andyandyandy',
-                            quantity: '1 ANDY',
-                            memo: ''
+                            voter: 'commitittest',
+                            pr_commiter: 'noprom',
+                            pr_url: "EOSIO/eos/pull/3986",
                         }
                     }
                 ]
