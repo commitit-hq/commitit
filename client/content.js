@@ -60,6 +60,27 @@ function main() {
 
     const deley = (time) => new Promise((resolve => setTimeout(resolve, time)))
 
+    async function queryAccountLikes () {
+        const eos = Eos(window.config)
+
+        // TODO: Can get table rows by command: `cleos get table commititlike commitittest data`
+        // but cannot get from eosjs
+        // ref: https://eosio.github.io/eos/group__eosiorpc.html#v1chaingettablerows
+        eos.getTableRows({
+            code:'commititlike',  // should be contract account name
+            scope:'commitittest', // should be own account name
+            table:'data',
+            table_key: 'like_id',
+            json: true,
+        })
+        .then(data => {
+            console.log('//----- likes table -----')
+            console.log(data)
+            // TODO save data and check if user has already Like the PR
+        })
+    }
+    queryAccountLikes()
+
     async function handleAppreciation() {
         buttonState.state = 'liking'
         const eos = Eos(window.config)
