@@ -4,7 +4,7 @@ function setStyleTag() {
         .appreciate-button-container {
             text-align: right;
         }
-    
+
         .appreciate-button {
             display: inline-block;
             font-size: 36px;
@@ -14,11 +14,11 @@ function setStyleTag() {
             font-weight: bold;
             user-select: none;
         }
-        
+
         .appreciate-button:hover {
             background: #FF0;
         }
-        
+
         .appreciate-button:active {
             background: #FD0;
         }
@@ -89,7 +89,7 @@ function main() {
                         data: {
                             from: 'commitittest',
                             to: 'andyandyandy',
-                            quantity: '23482 ANDY',
+                            quantity: '233 ANDY',
                             memo: ''
                         }
                     }
