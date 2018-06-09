@@ -4,7 +4,7 @@ function setStyleTag() {
         .appreciate-button-container {
             text-align: right;
         }
-    
+
         .appreciate-button {
             margin: 10px 0;
         }
