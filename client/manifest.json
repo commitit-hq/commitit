@@ -15,6 +15,7 @@
     {
       "matches": ["https://github.com/*/pull/*"],
       "js": [
+        "eosConfig.js",
         "eos.js",
         "content.js"
       ]
