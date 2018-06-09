@@ -1,0 +1,22 @@
+{
+  "name": "commitit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "wast": "eosiocpp -o commitit.like/commitit.like.wast commitit.like/commitit.like.cpp",
+    "abi": "eosiocpp -g commitit.like/commitit.like.abi commitit.like/commitit.like.cpp",
+    "compile": "npm run wast && npm run abi",
+    "deploy": "cleos set contract $ACCOUNT commitit.like"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/commitit-hq/commitit.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/commitit-hq/commitit/issues"
+  },
+  "homepage": "https://github.com/commitit-hq/commitit#readme"
+}
