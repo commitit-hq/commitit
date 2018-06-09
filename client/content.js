@@ -63,20 +63,22 @@ function main() {
     async function handleAppreciation() {
         buttonState.state = 'liking'
         const eos = Eos(window.config)
+        const pr_commiter = document.getElementsByClassName("pull-header-username")[0].innerText
+        const pr_url = window.location.pathname
         try {
             const result = await eos.transaction({
                 actions: [
                     {
-                        account: 'commitit.lk1',
-                        name: 'like',
+                        account: 'commititlike',
+                        name: 'createlike',
                         authorization: [{
                             actor: 'commitittest',
                             permission: 'active'
                         }],
                         data: {
                             voter: 'commitittest',
-                            pr_commiter: 'noprom',
-                            pr_url: "EOSIO/eos/pull/3986",
+                            pr_commiter,
+                            pr_url,
                         }
                     }
                 ]

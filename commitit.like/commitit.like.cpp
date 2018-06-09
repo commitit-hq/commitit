@@ -42,4 +42,6 @@ class commitit : public contract {
    };
    typedef eosio::multi_index< N(data), like, indexed_by<N(byvoter), const_mem_fun<like, account_name, &like::get_voter>> > likes;
 };
+
 EOSIO_ABI( commitit, (createlike) )
+// EOSIO_ABI( dice, (offerbet)(canceloffer)(reveal)(claimexpired)(deposit)(withdraw) )

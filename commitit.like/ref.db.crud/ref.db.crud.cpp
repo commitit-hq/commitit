@@ -42,4 +42,6 @@ class test_da : public contract {
    };
    typedef eosio::multi_index< N(data), like, indexed_by<N(byvoter), const_mem_fun<like, account_name, &like::get_voter>> > likes;
 };
+
 EOSIO_ABI( test_da, (create) )
+// EOSIO_ABI( dice, (offerbet)(canceloffer)(reveal)(claimexpired)(deposit)(withdraw) )
