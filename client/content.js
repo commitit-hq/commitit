@@ -46,12 +46,13 @@ function main() {
     setStyleTag()
     const config = {
         chainId: 'cec278a9dced800d9a695adc1e265ed11efa0ad8a70cdaac1eb65718bbe2434f',
-        keyProvider: [], // WIF string or array of keys..
+        contractSender: "commitittest",
+        keyProvider: [
+            `5JHeN2n3ai7awp9tWDwe12rV5ia9oLfZkxMs9oLz18FND7EvcjT`
+        ], // WIF string or array of keys..
         httpEndpoint: 'http://203.195.171.163:8888',
-        mockTransactions: () => 'pass', // or 'fail'
-        transactionHeaders: (expireInSeconds, callback) => {
-            callback(null/*error*/, headers)
-        },
+        // httpEndpoint: 'http://127.0.0.1:8888',
+        // mockTransactions: () => 'pass', // or 'fail'
         expireInSeconds: 60,
         broadcast: true,
         debug: false, // API and transactions
@@ -60,8 +61,30 @@ function main() {
 
     async function handleAppreciation() {
         const eos = Eos(config)
-        const firstblock = await eos.getBlock(664615)
-        alert(JSON.stringify(firstblock, null, 4))
+        try {
+            const result = await eos.transaction({
+                actions: [
+                    {
+                        account: 'commitittest',
+                        name: 'transfer',
+                        authorization: [{
+                            actor: 'commitittest',
+                            permission: 'active'
+                        }],
+                        data: {
+                            from: 'commitittest',
+                            to: 'andyandyandy',
+                            quantity: '23482 ANDY',
+                            memo: ''
+                        }
+                    }
+                ]
+            })
+            console.info(result)
+        }
+        catch (error) {
+            console.error(error)
+        }
     }
 
     insertAppreciationButton(handleAppreciation)
