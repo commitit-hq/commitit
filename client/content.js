@@ -133,6 +133,8 @@ function main() {
             })
             await deley(500)
             state.likeState = 'liked'
+            const likesDom = document.querySelector('.like-count')
+            likesDom.innerText = parseInt(likesDom.innerText, 10) + 1
             console.info(result)
         }
         catch (error) {
