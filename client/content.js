@@ -56,6 +56,8 @@ function main() {
                         textDom.innerText = 'Liked'
                         const buttonDom = document.querySelector('.appreciate-button .btn')
                         buttonDom.classList.add('disabled')
+                        const buttonWrapperDom = document.querySelector('.appreciate-button')
+                        buttonWrapperDom.style.pointerEvents = 'none'
                         break
                     }
                 }
