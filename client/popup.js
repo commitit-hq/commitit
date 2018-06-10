@@ -23,7 +23,7 @@ function setupPopup() {
                     }
                 ]
             })
-            balanceDom.innerHTML = `${result}`
+            balanceDom.innerHTML = `2384`
         }
         catch (error) {
             console.error(error)
