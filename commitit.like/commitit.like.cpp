@@ -15,8 +15,28 @@ class commitit : public contract {
 
     /**
      * mint CMT: periodically issue constant size of CMT
+     * WARNING: Conecept code, further development needed
      */
-    void mint() {
+    void initmint() {
+      std::clock_t genesis_start;
+      genesis_start = std::clock();
+
+      uint32_t MINT_PERIOD;
+      MINT_PERIOD = 60 // mint CMT per 60 seconds
+
+      uint32_t MINT_QUANTITY_PER_PERIOD;
+      MINT_QUANTITY_PER_PERIOD = 100 // mint CMT quantity per period
+
+      double duration;
+      duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+
+      while(true) {
+        if ( duration % MINT_PERIOD == 0) {
+          // issue 90% mint CMT to PR commiter based on weight
+          // issue 10% mint CMT to Voter base on weight
+          // TODO: transfer()
+        }
+      }
     }
 
     /**
@@ -162,4 +182,4 @@ class commitit : public contract {
     typedef multi_index< N(data), like, indexed_by<N(byvoter), const_mem_fun<like, account_name, &like::get_voter>> > likes;
 };
 
-EOSIO_ABI( commitit, (mint)(transfer)(sub_balance)(add_balance)(createlike) )
+EOSIO_ABI( commitit, (initmint)(transfer)(sub_balance)(add_balance)(createlike) )
