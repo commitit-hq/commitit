@@ -23,8 +23,9 @@ function insertAppreciationButton(clickCallback) {
                 Like
             </span>
         </a>
-        <a class="like-count social-count js-social-count">
-            0
+        <a class="social-count js-social-count">
+            <span class="like-count">0</span>
+            CMT
         </a>
     `
     buttonDom.innerHTML = buttonHTML
