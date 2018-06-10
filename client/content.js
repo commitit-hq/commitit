@@ -4,8 +4,8 @@ function setStyleTag() {
         .appreciate-button {
             position: relative;
             text-align: right;
-            height: 40px;
-            padding-left: 58px;
+            height: 50px;
+            padding: 10px 60px;
         }
 
     </style>
