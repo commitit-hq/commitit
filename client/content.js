@@ -33,8 +33,11 @@ function main() {
     setStyleTag()
 
     const buttonStateCore = {
-        state: 'not-liked',
+        state: 'unknown',
     }
+
+    const eos = Eos(window.config)
+    const pr_commiter = document.getElementsByClassName("pull-header-username")[0].innerText
 
     const buttonState = new Proxy(buttonStateCore, {
         set(obj, key, value) {
@@ -61,30 +64,32 @@ function main() {
     const deley = (time) => new Promise((resolve => setTimeout(resolve, time)))
 
     async function queryAccountLikes () {
-        const eos = Eos(window.config)
-
         // TODO: Can get table rows by command: `cleos get table commititlike commitittest data`
         // but cannot get from eosjs
         // ref: https://eosio.github.io/eos/group__eosiorpc.html#v1chaingettablerows
-        eos.getTableRows({
+        const data = await eos.getTableRows({
             code:'commititlike',  // should be contract account name
             scope:'commitittest', // should be own account name
             table:'data',
             table_key: 'like_id',
             json: true,
         })
-        .then(data => {
-            console.log('//----- likes table -----')
-            console.log(data)
-            // TODO save data and check if user has already Like the PR
-        })
+        // console.log('//----- likes table -----')
+        // console.log(data)
+        if (data.rows.some(row =>
+            window.location.pathname === row.pr_url && row.pr_commiter === pr_commiter
+        )) {
+            buttonState.state = 'liked'
+        }
+        else {
+            buttonState.state = 'not-liked'
+        }
+        // TODO save data and check if user has already Like the PR
     }
     queryAccountLikes()
 
     async function handleAppreciation() {
         buttonState.state = 'liking'
-        const eos = Eos(window.config)
-        const pr_commiter = document.getElementsByClassName("pull-header-username")[0].innerText
         const pr_url = window.location.pathname
         try {
             const result = await eos.transaction({
